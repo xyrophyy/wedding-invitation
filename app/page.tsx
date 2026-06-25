@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function Page() {
   return (
-    <main className="min-h-screen text-[#3a2e25] overflow-hidden font-serif relative">
+    <main className="min-h-screen text-[#3a2e25] font-serif overflow-hidden relative">
 
       <BatikBackground />
       <Intro />
@@ -23,21 +23,21 @@ export default function Page() {
   );
 }
 
-/* 🌸 BATIK BACKGROUND (PAKAI GAMBAR KAMU) */
+/* 🌸 BACKGROUND (FIXED SAFE PATH) */
 function BatikBackground() {
   return (
     <div className="fixed inset-0 -z-10">
       <img
         src="/batik.png"
-        className="w-full h-full object-cover opacity-25"
         alt="batik background"
+        className="w-full h-full object-cover opacity-25"
       />
       <div className="absolute inset-0 bg-[#fbf6ef]/60" />
     </div>
   );
 }
 
-/* 🎬 CINEMATIC INTRO */
+/* 🎬 INTRO */
 function Intro() {
   const [show, setShow] = useState(true);
 
@@ -76,7 +76,7 @@ function Intro() {
   );
 }
 
-/* 💍 HERO (ELEGANT OVER BATIK) */
+/* 💍 HERO */
 function Hero() {
   return (
     <section className="h-screen flex items-center justify-center text-center px-6">
@@ -143,7 +143,47 @@ function Countdown() {
   );
 }
 
-/* 📸 GALLERY (PAKAI IMAGE KAMU JUGA NANTI) */
+/* 📖 STORY */
+function Story() {
+  return (
+    <section className="py-20 text-center px-6">
+      <h2 className="tracking-[0.3em] text-sm text-[#7a5c3e] mb-6">
+        KISAH CINTA
+      </h2>
+
+      <p className="max-w-xl mx-auto text-[#6b4f2a]">
+        Dari pertemuan sederhana, tumbuhlah perjalanan cinta yang membawa kami menuju kehidupan baru penuh doa dan kebahagiaan.
+      </p>
+    </section>
+  );
+}
+
+/* 🎉 EVENT */
+function Event() {
+  return (
+    <section className="py-20 text-center">
+      <h2 className="tracking-[0.3em] text-sm text-[#7a5c3e] mb-10">
+        ACARA
+      </h2>
+
+      <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto px-6">
+
+        <div className="bg-white border rounded-xl p-6">
+          <h3 className="text-[#a67c52] text-xl">Akad Nikah</h3>
+          <p>20 Desember 2026</p>
+        </div>
+
+        <div className="bg-white border rounded-xl p-6">
+          <h3 className="text-[#a67c52] text-xl">Resepsi</h3>
+          <p>20 Desember 2026</p>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+/* 📸 GALLERY (SAFE IMAGE PATH) */
 function Gallery() {
   const images = ["/batik.png", "/batik.png", "/batik.png"];
 
@@ -159,7 +199,7 @@ function Gallery() {
           <img
             key={i}
             src={src}
-            className="min-w-[280px] h-72 object-cover rounded-2xl shadow-lg snap-center"
+            className="min-w-[280px] h-72 object-cover rounded-2xl snap-center shadow-lg"
           />
         ))}
 

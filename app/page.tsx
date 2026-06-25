@@ -97,22 +97,19 @@ function Countdown() {
 
       <div className="mt-12 flex justify-center gap-4 flex-wrap">
 
-        {Object.entries(time).map(([k, v]) => (
-          <motion.div
-            key={k}
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white border border-[#e8d6c0] rounded-xl px-6 py-5 w-24 shadow-sm"
-          >
-            <p className="text-2xl text-[#a67c52]">{v}</p>
-            <p className="text-[10px] uppercase tracking-widest text-[#7a5c3e]">
-              {k}
-            </p>
-          </motion.div>
-        ))}
+  {Object.entries(time).map(([k, v]) => (
+    <div key={k}>
+      <p className="text-2xl text-[#a67c52]">
+        {String(v)}
+      </p>
 
-      </div>
+      <p className="text-[10px] uppercase tracking-widest text-[#7a5c3e]">
+        {k}
+      </p>
+    </div>
+  ))}
+
+</div>
     </section>
   );
 }

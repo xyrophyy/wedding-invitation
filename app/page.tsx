@@ -1,11 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[#fbf6ef] text-[#3a2e25] font-serif overflow-x-hidden">
+    <main className="min-h-screen text-[#3a2e25] overflow-hidden font-serif relative">
+
+      <BatikBackground />
+      <Intro />
 
       <Hero />
       <Countdown />
@@ -20,229 +23,196 @@ export default function Page() {
   );
 }
 
-/* ================= HERO ================= */
+/* 🌸 BATIK BACKGROUND (PAKAI GAMBAR KAMU) */
+function BatikBackground() {
+  return (
+    <div className="fixed inset-0 -z-10">
+      <img
+        src="/batik.png"
+        className="w-full h-full object-cover opacity-25"
+        alt="batik background"
+      />
+      <div className="absolute inset-0 bg-[#fbf6ef]/60" />
+    </div>
+  );
+}
+
+/* 🎬 CINEMATIC INTRO */
+function Intro() {
+  const [show, setShow] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShow(false), 3000);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black z-50 flex items-center justify-center text-white text-center"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+          >
+            <p className="tracking-[0.4em] text-xs text-gray-400">
+              THE WEDDING OF
+            </p>
+
+            <h1 className="text-5xl mt-4 font-semibold">
+              Raka & Aulia
+            </h1>
+
+            <p className="mt-3 text-sm text-gray-300">
+              20 • 12 • 2026
+            </p>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* 💍 HERO (ELEGANT OVER BATIK) */
 function Hero() {
   return (
-    <section className="h-screen flex items-center justify-center text-center relative bg-gradient-to-b from-[#f7ead7] to-[#fbf6ef]">
+    <section className="h-screen flex items-center justify-center text-center px-6">
 
-      {/* BATIK OVERLAY */}
-      <div className="absolute inset-0 opacity-10 bg-[url('/batik-pattern.png')] bg-cover" />
+      <div className="bg-white/70 backdrop-blur-xl px-10 py-10 rounded-3xl shadow-xl border">
 
-      {/* FLOATING GOLD GLOW */}
-      <div className="absolute w-[400px] h-[400px] bg-yellow-200 blur-3xl opacity-30 rounded-full top-[-100px] left-[-100px]" />
-      <div className="absolute w-[300px] h-[300px] bg-orange-200 blur-3xl opacity-20 rounded-full bottom-[-80px] right-[-80px]" />
-
-      <div className="z-10 px-6">
-
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="tracking-[0.4em] text-xs text-[#7a5c3e]"
-        >
+        <p className="tracking-[0.3em] text-xs text-[#7a5c3e]">
           UNDANGAN PERNIKAHAN
-        </motion.p>
+        </p>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2 }}
-          className="text-6xl md:text-7xl mt-6 font-semibold text-[#a67c52]"
-        >
+        <h1 className="text-6xl mt-6 text-[#a67c52] font-semibold">
           Raka & Aulia
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-6 text-[#6b4f2a] max-w-md mx-auto"
-        >
-          Dengan penuh rasa syukur, kami mengundang Anda dalam acara sakral pernikahan kami
-        </motion.p>
+        <p className="mt-6 text-[#6b4f2a] max-w-md mx-auto">
+          Dengan penuh cinta dan restu keluarga, kami mengundang Anda dalam hari bahagia kami
+        </p>
 
       </div>
+
     </section>
   );
 }
 
-/* ================= COUNTDOWN ================= */
+/* ⏳ COUNTDOWN */
 function Countdown() {
-  const [time, setTime] = useState<any>({});
+  const [t, setT] = useState<any>({});
 
   useEffect(() => {
     const target = new Date("2026-12-20").getTime();
 
-    const interval = setInterval(() => {
+    const i = setInterval(() => {
       const now = new Date().getTime();
       const diff = target - now;
 
-      setTime({
-        days: Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24))),
-        hours: Math.max(0, Math.floor((diff / (1000 * 60 * 60)) % 24)),
-        minutes: Math.max(0, Math.floor((diff / 1000 / 60) % 60)),
-        seconds: Math.max(0, Math.floor((diff / 1000) % 60)),
+      setT({
+        days: Math.floor(diff / 86400000),
+        hours: Math.floor((diff / 3600000) % 24),
+        minutes: Math.floor((diff / 60000) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
       });
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(i);
   }, []);
 
   return (
-    <section className="py-24 text-center">
-
-      <h2 className="text-xl tracking-[0.3em] uppercase text-[#7a5c3e]">
-        Menuju Hari Bahagia
+    <section className="py-20 text-center">
+      <h2 className="tracking-[0.3em] text-sm text-[#7a5c3e]">
+        MENUJU HARI BAHAGIA
       </h2>
 
-      <div className="mt-12 flex justify-center gap-4 flex-wrap">
-
-  {Object.entries(time).map(([k, v]) => (
-    <div key={k}>
-      <p className="text-2xl text-[#a67c52]">
-        {String(v)}
-      </p>
-
-      <p className="text-[10px] uppercase tracking-widest text-[#7a5c3e]">
-        {k}
-      </p>
-    </div>
-  ))}
-
-</div>
-    </section>
-  );
-}
-
-/* ================= STORY ================= */
-function Story() {
-  return (
-    <section className="py-24 text-center bg-[#fbf6ef]">
-
-      <h2 className="text-2xl tracking-[0.3em] uppercase text-[#7a5c3e] mb-8">
-        Kisah Kami
-      </h2>
-
-      <p className="max-w-xl mx-auto text-[#6b4f2a] leading-relaxed">
-        Dari pertemuan sederhana, tumbuhlah cinta yang membawa kami ke perjalanan hidup baru yang penuh berkah dan kebahagiaan.
-      </p>
-
-    </section>
-  );
-}
-
-/* ================= EVENT ================= */
-function Event() {
-  return (
-    <section className="py-24 text-center bg-white">
-
-      <h2 className="text-xl tracking-[0.3em] uppercase text-[#7a5c3e] mb-10">
-        Acara Pernikahan
-      </h2>
-
-      <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6 px-6">
-
-        <div className="p-8 rounded-2xl border border-[#e8d6c0] bg-[#fbf6ef]">
-          <h3 className="text-xl text-[#a67c52]">Akad Nikah</h3>
-          <p className="mt-2">20 Desember 2026</p>
-          <p>Gedung Adat Ballroom</p>
-        </div>
-
-        <div className="p-8 rounded-2xl border border-[#e8d6c0] bg-[#fbf6ef]">
-          <h3 className="text-xl text-[#a67c52]">Resepsi</h3>
-          <p className="mt-2">20 Desember 2026</p>
-          <p>Gedung Adat Ballroom</p>
-        </div>
-
+      <div className="flex justify-center gap-4 mt-10 flex-wrap">
+        {Object.entries(t).map(([k, v]: any) => (
+          <div key={k} className="bg-white border rounded-xl px-5 py-4 w-24">
+            <p className="text-2xl text-[#a67c52]">{String(v)}</p>
+            <p className="text-[10px] uppercase tracking-widest text-[#7a5c3e]">
+              {k}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );
 }
 
-/* ================= GALLERY ================= */
+/* 📸 GALLERY (PAKAI IMAGE KAMU JUGA NANTI) */
 function Gallery() {
-  return (
-    <section className="py-24 text-center bg-[#fbf6ef]">
+  const images = ["/batik.png", "/batik.png", "/batik.png"];
 
-      <h2 className="text-xl tracking-[0.3em] uppercase text-[#7a5c3e] mb-10">
-        Prewedding Gallery
+  return (
+    <section className="py-20 text-center">
+      <h2 className="tracking-[0.3em] text-sm text-[#7a5c3e] mb-10">
+        GALERI PREWEDDING
       </h2>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto px-6">
+      <div className="flex gap-4 overflow-x-auto px-6 snap-x">
 
-        {Array.from({ length: 6 }).map((_, i) => (
-          <motion.div
+        {images.map((src, i) => (
+          <img
             key={i}
-            whileHover={{ scale: 1.05 }}
-            className="h-40 bg-gray-200 rounded-xl shadow"
+            src={src}
+            className="min-w-[280px] h-72 object-cover rounded-2xl shadow-lg snap-center"
           />
         ))}
 
       </div>
-
     </section>
   );
 }
 
-/* ================= LOCATION ================= */
+/* 📍 LOCATION */
 function Location() {
   return (
-    <section className="py-24 text-center bg-[#fbf6ef]">
-
-      <h2 className="text-xl tracking-[0.3em] uppercase text-[#7a5c3e] mb-6">
-        Lokasi
+    <section className="py-20 text-center">
+      <h2 className="tracking-[0.3em] text-sm text-[#7a5c3e] mb-6">
+        LOKASI
       </h2>
 
-      <p className="text-[#6b4f2a] mb-6">
-        Gedung Adat Nusantara Ballroom
-      </p>
+      <p className="mb-6">Gedung Adat Nusantara Ballroom</p>
 
       <a
         href="https://maps.google.com"
-        className="px-8 py-3 bg-[#a67c52] text-white rounded-full hover:scale-105 transition"
+        className="bg-[#a67c52] text-white px-6 py-3 rounded-full"
       >
-        Lihat Peta
+        Lihat Maps
       </a>
-
     </section>
   );
 }
 
-/* ================= RSVP ================= */
+/* 💌 RSVP */
 function RSVP() {
   return (
-    <section className="py-24 bg-white text-center">
-
-      <h2 className="text-xl tracking-[0.3em] uppercase text-[#7a5c3e] mb-8">
+    <section className="py-20 text-center px-6">
+      <h2 className="tracking-[0.3em] text-sm text-[#7a5c3e] mb-8">
         RSVP
       </h2>
 
-      <div className="max-w-md mx-auto space-y-4 px-6">
+      <div className="max-w-md mx-auto space-y-3">
+        <input className="w-full border p-3 rounded-xl" placeholder="Nama" />
+        <textarea className="w-full border p-3 rounded-xl" placeholder="Ucapan" />
 
-        <input className="w-full p-3 border border-[#e8d6c0] rounded-xl" placeholder="Nama Anda" />
-
-        <select className="w-full p-3 border border-[#e8d6c0] rounded-xl">
-          <option>Hadir</option>
-          <option>Tidak Hadir</option>
-        </select>
-
-        <textarea className="w-full p-3 border border-[#e8d6c0] rounded-xl" placeholder="Ucapan" />
-
-        <button className="w-full bg-[#a67c52] text-white py-3 rounded-xl hover:scale-105 transition">
+        <button className="w-full bg-[#a67c52] text-white py-3 rounded-xl">
           Kirim
         </button>
-
       </div>
-
     </section>
   );
 }
 
-/* ================= FOOTER ================= */
+/* 🧾 FOOTER */
 function Footer() {
   return (
-    <footer className="py-16 text-center text-xs text-[#7a5c3e] tracking-[0.3em]">
-      © 2026 Raka & Aulia • Wedding Invitation
+    <footer className="py-10 text-center text-xs text-[#7a5c3e]">
+      © 2026 Wedding Invitation
     </footer>
   );
 }
